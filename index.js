@@ -62,6 +62,30 @@ async function run() {
         res.status(500).json({ error: "Error" });
       }
     });
+
+    app.get("/spots", async (req, res) => {
+      try {
+        const user = await spot.find().toArray();
+        res.send(user);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+      }
+    });
+
+    app.post("/spots", async (req, res) => {
+      const newUser = req.body;
+      console.log(newUser);
+      try {
+        const result = await spot.insertOne(newUser);
+        console.log(`New User with the id: ${result.insertedId}`);
+        res.json(result);
+      } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ error: "Error" });
+      }
+    });
+
     app.get("/", (req, res) => {
       res.send("Euro Travel Server is running");
     });
