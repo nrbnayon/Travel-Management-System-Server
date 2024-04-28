@@ -86,6 +86,18 @@ async function run() {
       }
     });
 
+    app.get("/spots/:id", async (req, res) => {
+      try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const user = await spot.findOne(query);
+        res.send(user);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+      }
+    });
+
     app.get("/", (req, res) => {
       res.send("Euro Travel Server is running");
     });
