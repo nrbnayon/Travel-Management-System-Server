@@ -72,6 +72,7 @@ async function run() {
         res.status(500).json({ error: "Internal Server Error" });
       }
     });
+    // Spot Post
 
     app.post("/spots", async (req, res) => {
       const newUser = req.body;
@@ -85,7 +86,36 @@ async function run() {
         res.status(500).json({ error: "Error" });
       }
     });
+    //Spot Update
+    app.put("/spots/:id", async (req, res) => {
+      try {
+        const id = req.params.id;
+        const filter = { _id: new ObjectId(id) };
+        // const options = { upsert: true };
+        const updatedSpot = req.body;
+        const updated = {
+          $set: {
+            image: updatedSpot.image,
+            tourists_spot_name: updatedSpot.tourists_spot_name,
+            country_Name: updatedSpot.country_Name,
+            location: updatedSpot.location,
+            short_description: updatedSpot.short_description,
+            average_cost: updatedSpot.average_cost,
+            seasonality: updatedSpot.seasonality,
+            travel_time: updatedSpot.travel_time,
+            totalVisitorsPerYear: updatedSpot.totalVisitorsPerYear,
+          },
+        };
+        const result = await spot.updateOne(filter, updated);
 
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+      }
+    });
+
+    // Spot Get
     app.get("/spots/:id", async (req, res) => {
       try {
         const id = req.params.id;
