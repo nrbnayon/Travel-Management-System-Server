@@ -29,7 +29,7 @@ async function run() {
 
     const spot = database.collection("spots");
 
-    const ourCountries = database.collection("spots");
+    const ourCountries = database.collection("countries");
 
     app.get("/users", async (req, res) => {
       try {
@@ -142,7 +142,8 @@ async function run() {
         res.status(500).send("Internal Server Error");
       }
     });
-    // all country data
+
+    // all country data get
     app.get("/countries", async (req, res) => {
       try {
         const countries = await ourCountries.find().toArray();
@@ -152,7 +153,20 @@ async function run() {
         res.status(500).json({ error: "Internal Server Error" });
       }
     });
-
+    // post all countries
+    app.post("/countries", async (req, res) => {
+      const countriesData = req.body;
+      try {
+        const result = await ourCountries.insertMany(countriesData);
+        console.log(
+          `${result.insertedCount} documents inserted into countries collection`
+        );
+        res.json(result);
+      } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ error: "Error" });
+      }
+    });
     app.get("/", (req, res) => {
       res.send("Euro Travel Server is running");
     });
