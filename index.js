@@ -76,7 +76,6 @@ async function run() {
 
     app.post("/spots", async (req, res) => {
       const newUser = req.body;
-      console.log(newUser);
       try {
         const result = await spot.insertOne(newUser);
         console.log(`New User with the id: ${result.insertedId}`);
@@ -125,6 +124,20 @@ async function run() {
       } catch (error) {
         console.error("Error fetching users:", error);
         res.status(500).json({ error: "Internal Server Error" });
+      }
+    });
+
+    // Spot Delete
+
+    app.delete("/spots/:id", async (req, res) => {
+      try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await spot.deleteOne(query);
+        res.send(result);
+      } catch (error) {
+        console.error("Error deleting spot:", error);
+        res.status(500).send("Internal Server Error");
       }
     });
 
