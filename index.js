@@ -29,6 +29,8 @@ async function run() {
 
     const spot = database.collection("spots");
 
+    const ourCountries = database.collection("spots");
+
     app.get("/users", async (req, res) => {
       try {
         const user = await webuser.find().toArray();
@@ -138,6 +140,16 @@ async function run() {
       } catch (error) {
         console.error("Error deleting spot:", error);
         res.status(500).send("Internal Server Error");
+      }
+    });
+    // all country data
+    app.get("/countries", async (req, res) => {
+      try {
+        const countries = await ourCountries.find().toArray();
+        res.json(countries);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+        res.status(500).json({ error: "Internal Server Error" });
       }
     });
 
