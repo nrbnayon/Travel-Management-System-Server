@@ -22,7 +22,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
+    // await client.connect();
     const database = client.db("euroTravel");
 
     const webuser = database.collection("users");
@@ -171,8 +171,8 @@ async function run() {
       res.send("Euro Travel Server is running");
     });
 
-    await client.db("admin").command({ ping: 1 });
-    console.log("Successfully connected to MongoDB!");
+    // await client.db("admin").command({ ping: 1 });
+    // console.log("Successfully connected to MongoDB!");
 
     app.listen(port, () => {
       console.log(`Server is running on Port: ${port}`);
