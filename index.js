@@ -81,7 +81,6 @@ async function run() {
       const newUser = req.body;
       try {
         const result = await spot.insertOne(newUser);
-        console.log(`New User with the id: ${result.insertedId}`);
         res.json(result);
       } catch (error) {
         console.error("Error:", error);
@@ -93,7 +92,7 @@ async function run() {
       try {
         const id = req.params.id;
         const filter = { _id: new ObjectId(id) };
-        // const options = { upsert: true };
+        const options = { upsert: true };
         const updatedSpot = req.body;
         const updated = {
           $set: {
@@ -108,7 +107,7 @@ async function run() {
             totalVisitorsPerYear: updatedSpot.totalVisitorsPerYear,
           },
         };
-        const result = await spot.updateOne(filter, updated);
+        const result = await spot.updateOne(filter, updated, options);
 
         res.send(result);
       } catch (error) {
