@@ -74,6 +74,7 @@ async function run() {
         res.status(500).json({ error: "Internal Server Error" });
       }
     });
+
     // Spot Post
 
     app.post("/spots", async (req, res) => {
